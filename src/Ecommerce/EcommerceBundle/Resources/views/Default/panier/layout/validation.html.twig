@@ -1,0 +1,68 @@
+{% extends "::layout/layout.html.twig" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div class="row">
+                    {% include "::modulesUsed/navigation.html.twig" %}
+                </div>
+            </div>    
+
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Votre panier</h2>
+                    </div>
+                </div>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Reference</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire</th>
+                            <th>Total HT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Mark</td>
+                            <td>7</td>
+                            <td>150 FCFA</td>
+                            <td>900 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jacob</td>
+                            <td>3</td>
+                            <td>100 FCFA</td>
+                            <td>300 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Larry</td>
+                            <td>1</td>
+                            <td>250 FCFA</td>
+                            <td>250 FCFA</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dl class="dl-horizontal pull-right">
+                    <dt>Total HT :</dt>
+                    <dd>2,150 FCFA</dd>
+                    <dt>TVA :</dt>
+                    <dd>700 FCFA</dd>
+                    <dt>Total :</dt>
+                    <dd>2,750 FCFA</dd>
+                </dl>
+                <div class="clearfix"></div>
+                <a href="#" class="btn btn-success pull-right">Payer</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

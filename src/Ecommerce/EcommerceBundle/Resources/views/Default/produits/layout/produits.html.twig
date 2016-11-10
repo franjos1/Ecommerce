@@ -1,0 +1,56 @@
+{% extends "::layout/layout.html.twig" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div class="row">
+                    {% include "::modulesUsed/navigation.html.twig" %}
+                </div>
+            </div>    
+
+            <div class="col-sm-9">
+                <div class="row">
+                    {% for i in 0..10 %}
+                        <div class="col-sm-4">
+                            <div class="thumbnail">
+                                <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
+                                <div class="caption">
+                                    <h4>Poivron rouge</h4>
+                                    <p>100 FCFA</p>
+                                    <a class="btn btn-primary btn-xs" href="{{ path('presentation') }}">Plus d'infos</a>
+                                    <a class="btn btn-success btn-xs" href="{{ path('panier') }}">Ajouter au panier</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <ul class="pagination">
+                    <li>
+                        <a href="#">«&nbsp;Prev</a>
+                    </li>
+                    <li>
+                        <a href="#">1</a>
+                    </li>
+                    <li>
+                        <a href="#">2</a>
+                    </li>
+                    <li>
+                        <a href="#">3</a>
+                    </li>
+                    <li>
+                        <a href="#">4</a>
+                    </li>
+                    <li>
+                        <a href="#">5</a>
+                    </li>
+                    <li>
+                        <a href="#">Next&nbsp;»</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

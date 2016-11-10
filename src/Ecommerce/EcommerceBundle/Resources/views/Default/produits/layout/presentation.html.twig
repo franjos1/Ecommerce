@@ -1,0 +1,45 @@
+{% extends "::layout/layout.html.twig" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div class="row">
+                    {% include "::modulesUsed/navigation.html.twig" %}
+                </div>
+            </div>    
+
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
+                    </div>
+                    <div class="col-sm-6">
+                        <h4>Item Brand and Category</h4>
+                        <h5>AB29837 Item Model</h5>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has 
+                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took 
+                            a galley of type and scrambled it to make a type specimen book. It has survived not only 
+                            five centuries, but also the leap into electronic typesetting, remaining essentially 
+                            Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
+                            PageMaker including versions of Lorem Ipsum.</p>
+                        <h4>100 FCFA</h4>
+                        <form role="form" action="panier.php">
+                            <div class="input-group">
+                                <select name="qte" class="form-control">
+                                    <option value="">100</option>
+                                </select>
+                            </div>
+                            <br />
+                            <div class="">
+                                <button class="btn btn-primary">Ajouter au panier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

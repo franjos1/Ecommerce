@@ -1,0 +1,106 @@
+{% extends "::layout/layout.html.twig" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div class="row">
+                    {% include "::modulesUsed/navigation.html.twig" %}
+                </div>
+            </div>    
+
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <legend><h1>Livraison</h1></legend>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="collapseOne" class="accordion-body collapse in">
+                            <div class="accordion-inner">
+                                <form role="form" action="{{ path('validation') }}">
+                                    <h4>Adresses de livraison</h4>
+                                    <div class="adresse">
+                                        <span class="radio">
+                                            <input id="optionsRadios1" type="radio" name="adresse" value="option1" checked=""> 
+                                            3b rue jules paulo, 75000 Yaoundé <a href="#"><span class="fa fa-trash"></span></a>
+                                        </span>
+                                        <span class="radio">
+                                            <input id="optionsRadios1" type="radio" name="adresse" value="option1" checked=""> 
+                                            3b rue jules paulo, 75000 Yaoundé <a href="#"><span class="fa fa-trash"></span></a>
+                                        </span>
+                                        <span class="radio">
+                                            <input id="optionsRadios1" type="radio" name="adresse" value="option1" checked=""> 
+                                            3b rue jules paulo, 75000 Yaoundé <a href="#"><span class="fa fa-trash"></span></a>
+                                        </span>
+                                    </div>
+                                    <br>
+
+                                    <h4>Adresses de facturation</h4>
+                                    <div class="adresse">
+                                        <span class="radio">
+                                            <input id="optionsRadios1" type="radio" name="facturation" value="option1" checked=""> 
+                                            3b rue jules paulo, 75000 Yaoundé <a href="#"><span class="fa fa-trash"></span></a>
+                                        </span>
+                                        <span class="radio">
+                                            <input id="optionsRadios1" type="radio" name="facturation" value="option1" checked=""> 
+                                            3b rue jules paulo, 75000 Yaoundé <a href="#"><span class="fa fa-trash"></span></a>
+                                        </span>
+                                        <span class="radio">
+                                            <input id="optionsRadios1" type="radio" name="facturation" value="option1" checked=""> 
+                                            3b rue jules paulo, 75000 Yaoundé <a href="#"><span class="fa fa-trash"></span></a>
+                                        </span>
+                                    </div><br>
+                                    <button class="btn btn-primary">Valider mon adresse de livraison</button><br>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <form role="form" action="{{ path('validation') }}">
+                            <h4>Ajouter une nouvelle adresse</h4>
+                            <div class="col-md-8">  
+                                <div class="form-group">
+                                    <span class="control-label">Nom</span>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <span class="control-label">Prénom</span>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <span class="control-label">Téléphone</span>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <span class="control-label">Adresse</span>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <span class="control-label">Code postal</span>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <span class="control-label">Ville</span>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <span class="control-label">Pays</span>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <span class="control-label">Complément</span>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div><br>
+                            <div class="col-sm-12">
+                                <button class="btn btn-primary">Ajouter</button>
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
