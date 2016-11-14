@@ -1,0 +1,24 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="row">
+                {% include "::modulesUsed/navigation.html.twig" %}
+            </div>
+            <div class="row">
+                {% include "UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig" %}
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-12">
+                    <legend><h2>Inscription</h2></legend>
+                    <div class="col-sm-offset-4 col-md-4 col-sm-5">
+                        {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock fos_user_content %}

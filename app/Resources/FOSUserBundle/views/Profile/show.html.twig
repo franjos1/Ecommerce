@@ -1,0 +1,22 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="row">
+                {% include "::modulesUsed/navigation.html.twig" %}
+            </div>
+            <div class="row">
+                {% include "UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig" %}
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-12">
+                    <legend><h2>Mes informations</h2></legend>
+                    {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock fos_user_content %}
