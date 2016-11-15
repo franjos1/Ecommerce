@@ -49,8 +49,7 @@
                             <li class="nav-header surligneur">
                                 <h4>Informations</h4>
                             </li>
-                            <li><a href="{{ path('page', {'id':1}) }}">Notre but !</a></li>
-                            <li><a href="#">L'actualité</a></li>
+                            <li>{% render(controller('PagesBundle:Pages:menu')) %}</li>
                         </ul>
                     </div>
                     <div class="col-sm-4">
