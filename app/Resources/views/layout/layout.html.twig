@@ -24,16 +24,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-ex-collapse">
                     <div class="nav pull-right">
-                        <form role="form">
-                            <div class="form-group">
-                                <div class="input-group rechercher">
-                                    <input type="text" class="form-control" placeholder="Rechercher un produit">
-                                    <span class="input-group-btn">
-                                        <a class="btn btn-success" type="submit">Rechercher</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
+                        {% render(controller('EcommerceBundle:Produits:recherche')) %}
                     </div>
                 </div>
             </div>
@@ -49,8 +40,7 @@
                             <li class="nav-header surligneur">
                                 <h4>Informations</h4>
                             </li>
-                            <li><a href="{{ path('page', {'id':1}) }}">Notre but !</a></li>
-                            <li><a href="#">L'actualité</a></li>
+                            <li>{% render(controller('PagesBundle:Pages:menu')) %}</li>
                         </ul>
                     </div>
                     <div class="col-sm-4">
@@ -59,7 +49,7 @@
                                 <h4>Notre entrepôt</h4>
                             </li>
                             <li>
-                                <a><i class="fa fa-map-marker"></i> Yaoundé CAMEROUN - Chapelle Nsimeyong</a>
+                                <a><i class="fa fa-map-marker"></i> {{ adresse }}</a>
                             </li>
                         </ul>
                     </div>
@@ -69,22 +59,25 @@
                                 <h4>Nous contacter</h4>
                             </li>
                             <li>
-                                <a><i class="fa fa-phone"></i> Tel n°2: 02 35 00 00 00</a>
+                                <a><i class="fa fa-at"></i> Email : {{ email }}</a>
                             </li>
                             <li>
-                                <a><i class="fa fa-phone"></i> Tel n°2: 02 35 00 00 00</a>
+                                <a><i class="fa fa-facebook"></i>&nbsp; Facebook : {{ facebook }}</a>
+                            </li>
+                            <li>
+                                <a><i class="fa fa-phone"></i> Telephone : {{ telephone }}</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <br>
                 <div class="row text-center">
-                    <i class="fa fa-hand-o-right"></i>&nbsp;© Copyright &nbsp; 2016 - Franjos
+                    <i class="fa fa-hand-o-right"></i>&nbsp;© Copyright &nbsp; Franjos &nbsp; 2016 - {{ "now"|date('Y') }}
                 </div>
             </div>
         </footer>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

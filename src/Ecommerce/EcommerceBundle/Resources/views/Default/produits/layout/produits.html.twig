@@ -12,14 +12,14 @@
 
             <div class="col-sm-9">
                 <div class="row">
-                    {% for i in 0..10 %}
+                    {% for produit in produits %}
                         <div class="col-sm-4">
                             <div class="thumbnail">
-                                <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
+                                <img src="{{ produit.image.path }}" class="img-responsive">
                                 <div class="caption">
-                                    <h4>Poivron rouge</h4>
-                                    <p>100 FCFA</p>
-                                    <a class="btn btn-primary btn-xs" href="{{ path('presentation') }}">Plus d'infos</a>
+                                    <h4>{{ produit.nom }}</h4>
+                                    <p>{{ produit.prix }} FCFA</p>
+                                    <a class="btn btn-primary btn-xs" href="{{ path('presentation', {'id' : produit.id}) }}">Plus d'infos</a>
                                     <a class="btn btn-success btn-xs" href="{{ path('panier') }}">Ajouter au panier</a>
                                 </div>
                             </div>
