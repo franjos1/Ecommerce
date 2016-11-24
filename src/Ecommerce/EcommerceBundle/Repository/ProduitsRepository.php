@@ -21,5 +21,16 @@ class ProduitsRepository extends EntityRepository
                 ->orderBy('u.id')
                 ->setParameter('categorie', $categorie);
         return $qb->getQuery()->getResult();
-    } 
+    }     
+    
+    public function recherche($chaine)
+    {
+        $qb = $this->createQueryBuilder('u')
+                   ->select('u')
+                   ->where('u.nom like :chaine')
+                   ->andWhere('u.disponible = 1')
+                   ->orderBy('u.id')
+                   ->setParameter('chaine', $chaine);
+        return $qb->getQuery()->getResult();
+    }    
 }
