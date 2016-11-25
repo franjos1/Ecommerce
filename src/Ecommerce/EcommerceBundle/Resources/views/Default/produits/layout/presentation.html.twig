@@ -1,5 +1,8 @@
 {% extends "::layout/layout.html.twig" %}
 
+{% block titre %}{{ produit.nom }}{% endblock %}
+{% block description %}{{ produit.description }}{% endblock %}
+
 {% block body %}
     <div class="container">
         <div class="row">
@@ -7,6 +10,11 @@
             <div class="col-sm-3">
                 <div class="row">
                     {% include "::modulesUsed/navigation.html.twig" %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig" %}
+                    {% else %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig" %}
+                    {% endif %}
                 </div>
             </div>    
 
@@ -19,7 +27,7 @@
                         <h3>{{ produit.nom }}</h3>
                         <h4>{{ produit.categorie.nom }}</h4>
                         <p>{{ produit.description }}</p>
-                        <h4>{{ produit.prix }} FCFA</h4>
+                        <h4>{{ produit.prix|tva(produit.tva.multiplicate) }} FCFA</h4>
                         <form role="form" action="panier.php">
                             <div class="input-group">
                                 <select name="qte" class="form-control">

@@ -7,6 +7,11 @@
             <div class="col-sm-3">
                 <div class="row">
                     {% include "::modulesUsed/navigation.html.twig" %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig" %}
+                    {% else %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig" %}
+                    {% endif %}
                 </div>
             </div>    
 
@@ -18,7 +23,7 @@
                                 <img src="{{ produit.image.path }}" class="img-responsive">
                                 <div class="caption">
                                     <h4>{{ produit.nom }}</h4>
-                                    <p>{{ produit.prix }} FCFA</p>
+                                    <p>{{ produit.prix|tva(produit.tva.multiplicate) }} FCFA</p>
                                     <a class="btn btn-primary btn-xs" href="{{ path('presentation', {'id' : produit.id}) }}">Plus d'infos</a>
                                     <a class="btn btn-success btn-xs" href="{{ path('panier') }}">Ajouter au panier</a>
                                 </div>
