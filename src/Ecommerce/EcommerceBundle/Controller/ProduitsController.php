@@ -20,10 +20,19 @@ class ProduitsController extends Controller
     
     public function produitsAction()
     {
+        $session = $this->getRequest()->getSession();
         $em = $this->getDoctrine()->getManager();
-        $produits = $em->getRepository('EcommerceBundle:Produits')->findAll();
         
-        return $this->render('EcommerceBundle:Default:produits/layout/produits.html.twig', array('produits' => $produits));
+        $produits = $em->getRepository('EcommerceBundle:Produits')->findBy(array('disponible' => 1));
+        
+        if($session->has('panier'))
+            $panier = $session->get('panier');
+        else
+            $panier = false;
+        
+        
+        return $this->render('EcommerceBundle:Default:produits/layout/produits.html.twig', array('produits' => $produits,
+                                                                                                 'panier' => $panier));
     }
     
     public function presentationAction($id)
@@ -39,7 +48,8 @@ class ProduitsController extends Controller
         else
             $panier = false;
         
-        return $this->render('EcommerceBundle:Default:produits/layout/presentation.html.twig', array('produit' => $produit));
+        return $this->render('EcommerceBundle:Default:produits/layout/presentation.html.twig', array('produit' => $produit,
+                                                                                                     'panier' => $panier));
     }
     
     public function rechercheAction()

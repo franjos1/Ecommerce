@@ -15,6 +15,7 @@
                     {% else %}
                         {% include "UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig" %}
                     {% endif %}
+                    {% render(controller('EcommerceBundle:Panier:menu')) %}
                 </div>
             </div>    
 
@@ -28,17 +29,25 @@
                         <h4>{{ produit.categorie.nom }}</h4>
                         <p>{{ produit.description }}</p>
                         <h4>{{ produit.prix|tva(produit.tva.multiplicate) }} FCFA</h4>
-                        <form role="form" action="panier.php">
-                            <div class="input-group">
-                                <select name="qte" class="form-control">
-                                    <option value="">1</option>
-                                </select>
+                        {% if panier[produit.id] is not defined %}
+                            <form action="{{ path('ajouter', {'id' : produit.id}) }}" method="get">
+                                <div class="input-group">
+                                    <select name="qte" class="form-control">
+                                        {%for i in 1..10 %}
+                                            <option value="{{ i }}">{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="">
+                                    <button class="btn btn-primary">Ajouter au panier</button>
+                                </div>
+                            </form>
+                        {% else %} 
+                            <div>	
+                                <a href="{{ path('panier') }}" class="btn btn-primary">Le produit est déjà dans votre panier</a>
                             </div>
-                            <br />
-                            <div class="">
-                                <button class="btn btn-primary">Ajouter au panier</button>
-                            </div>
-                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>

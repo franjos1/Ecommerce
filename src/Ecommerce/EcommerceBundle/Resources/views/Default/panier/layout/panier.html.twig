@@ -1,5 +1,12 @@
 {% extends "::layout/layout.html.twig" %}
 
+{% set totalHT = 0 %}
+{% set totalTTC = 0 %} 
+{% set refTva = {} %}     
+{% for produit in produits %}
+    {% set refTva = refTva|merge({ ('%' ~ produit.tva.valeur) : 0}) %} 
+{% endfor %}    
+
 {% block body %}
     <div class="container">
         <div class="row">
@@ -7,12 +14,25 @@
             <div class="col-sm-3">
                 <div class="row">
                     {% include "::modulesUsed/navigation.html.twig" %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig" %}
+                    {% else %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig" %}
+                    {% endif %}
+                    {% render(controller('EcommerceBundle:Panier:menu')) %}
                 </div>
             </div>    
 
             <div class="col-sm-9">
                 <div class="row">
                     <div class="col-sm-12">
+                        {% for flashMessage in app.session.flashbag.get('success') %}
+                            <div class="alert alert-success">
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %} 
+                    
+                    
                         <h2>Votre panier</h2>
                     </div>
                 </div>
@@ -28,58 +48,49 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>
-                                <select>
-                                    <option>1</option>
-                                </select>
-                                <a><span class="fa fa-refresh"></span></a>
-                                <a><span class="fa fa-trash"></span></a>
-                            </td>
-                            <td>150 FCFA</td>
-                            <td>900 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>
-                                <select>
-                                    <option>3</option>
-                                </select>
-                                <a><span class="fa fa-refresh"></span></a>
-                                <a><span class="fa fa-trash"></span></a>
-                            </td>
-                            <td>100 FCFA</td>
-                            <td>300 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>
-                                <select>
-                                    <option>1</option>
-                                </select>
-                                <a><span class="fa fa-refresh"></span></a>
-                                <a><span class="fa fa-trash"></span></a>
-                            </td>
-                            <td>250 FCFA</td>
-                            <td>250 FCFA</td>
-                        </tr>
+                        {% if produits|length == 0 %}
+                            <tr>
+                                <td colspan="5" class="center"><center>Aucun article dans votre panier</center></td>
+                            </tr>
+                        {% endif %}
+                        
+                        {%for produit in produits %}
+                            <tr>
+                                <form action="{{ path('ajouter', { 'id' : produit.id }) }}" method="get">
+                                    <td></td>
+                                    <td>{{ produit.nom }}</td>
+                                    <td>
+                                        <select name="qte" onChange="this.form.submit()">
+                                            {% for i in 1..10 %}
+                                                <option value="{{ i }}" {% if i == panier[produit.id] %} selected="selected" {% endif %}>{{ i }}</option>
+                                            {% endfor %}    
+                                        </select>&nbsp;
+                                        <a href="{{ path('supprimer', { 'id' : produit.id}) }}"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                    <td>{{ produit.prix }} €</td>
+                                    <td>{{ produit.prix * panier[produit.id] }} FCFA</td>
+                                </form>
+                            </tr>
+                            {% set totalHT = totalHT + (produit.prix * panier[produit.id]) %}
+                            {% set totalTTC = totalTTC + (produit.prix * panier[produit.id])|tva(produit.tva.multiplicate) %} 
+                            {% set refTva = refTva|merge({ ('%' ~ produit.tva.valeur) : refTva['%' ~ produit.tva.valeur] + ( produit.prix * panier[produit.id])|montantTva(produit.tva.multiplicate) }) %}   
+                        {% endfor %}
                     </tbody>
                 </table>
-                <dl class="dl-horizontal pull-right">
-                    <dt>Total HT :</dt>
-                    <dd>2,150 FCFA</dd>
-                    <dt>TVA :</dt>
-                    <dd>700 FCFA</dd>
-                    <dt>Total :</dt>
-                    <dd>2,750 FCFA</dd>
-                </dl>
-                <div class="clearfix"></div>
-                <a href="{{ path('livraison') }}" class="btn btn-success pull-right">Valider mon panier</a>
-                <a href="index.php" class="btn btn-primary">Continuer mes achats</a>
+                {% if produits|length != 0 %}    
+                    <dl class="dl-horizontal pull-right">
+                        <dt>Total HT :</dt> <dd>{{ totalHT }} FCFA</dd>
+
+                        {% for key, tva in refTva %}
+                            <dt>TVA {{ key }} :</dt> <dd>{{ tva }} FCFA</dd>
+                        {% endfor %}
+
+                        <dt>Total TTC:</dt> <dd>{{ totalTTC }} FCFA</dd>
+                    </dl>
+                    <div class="clearfix"></div>
+                    <a href="{{ path('livraison') }}" class="btn btn-success pull-right">Valider mon panier</a>
+                {% endif %}
+                <a href="{{ path ('produits') }}" class="btn btn-primary">Continuer mes achats</a>
 
             </div>
         </div>
