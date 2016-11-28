@@ -74,10 +74,42 @@ class PanierController extends Controller
         return $this->render('EcommerceBundle:Default:panier/layout/panier.html.twig', array('produits' => $produits,
                                                                                              'panier' => $session->get('panier')));
     }
-    
+     
+    public function adresseSuppressionAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('EcommerceBundle:UtilisateursAdresses')->find($id);
+        
+        if($this->container->get('security.context')->getToken()->getUser() != $entity->getUtilisateur() || !$entity)
+            return $this->redirect ($this->generateUrl ('livraison'));
+        
+        $em->remove($entity);
+        $em->flush();
+        
+        return $this->redirect ($this->generateUrl ('livraison'));
+    }
+      
     public function livraisonAction()
     {
-        return $this->render('EcommerceBundle:Default:panier/layout/livraison.html.twig');
+        $utilisateur = $this->container->get('security.context')->getToken()->getUser();
+        $entity = new UtilisateursAdresses();
+        $form = $this->createForm(new UtilisateursAdressesType($em), $entity);
+        
+        if($this->get('request')->getMethod() == 'POST')
+        {
+            $form->handleRequest($this->getRequest());
+            if($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $entity->setUtilisateur($utilisateur);
+                $em->persist($entity);
+                $em->flush();
+                
+                return $this->redirect($this->generateUrl('livraison'));
+            }    
+        }
+        
+        return $this->render('EcommerceBundle:Default:panier/layout/livraison.html.twig', array('utilisateur' => $utilisateur,
+                                                                                                'form' => $form->createView()));
     }
     
     public function validationAction()

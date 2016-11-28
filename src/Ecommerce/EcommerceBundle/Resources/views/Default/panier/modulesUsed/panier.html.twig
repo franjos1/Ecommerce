@@ -5,11 +5,11 @@
             <li>
                 <a href="{{ path('panier') }}">
                     {% if articles == 0 %}
-                        Aucun article dans votre panier
+                        Aucun article dans le panier
                     {% elseif articles == 1 %}
-                        1 article dans votre panier
+                        1 article dans le panier
                     {% else %}
-                        {{ articles }} articles dans votre panier
+                        {{ articles }} articles dans le panier
                     {% endif %}
                 </a>
             </li>

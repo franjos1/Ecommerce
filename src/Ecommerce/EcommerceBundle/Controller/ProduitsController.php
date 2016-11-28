@@ -4,33 +4,27 @@ namespace Ecommerce\EcommerceBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ecommerce\EcommerceBundle\Form\RechercheType;
+use Ecommerce\EcommerceBundle\Entity\Categories;
 
 class ProduitsController extends Controller
 {
-    public function categorieAction($categorie)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $produits = $em->getRepository('EcommerceBundle:Produits')->byCategorie($categorie);
-        
-        $categorie = $em->getRepository('EcommerceBundle:Categories')->find($categorie);
-        if(!$categorie)throw $this->createNotFoundException ('La page n\'existe pas.');
-        
-        return $this->render('EcommerceBundle:Default:produits/layout/produits.html.twig', array('produits' => $produits));
-    }
-    
-    public function produitsAction()
+    public function produitsAction(Categories $categorie = null)
     {
         $session = $this->getRequest()->getSession();
         $em = $this->getDoctrine()->getManager();
         
-        $produits = $em->getRepository('EcommerceBundle:Produits')->findBy(array('disponible' => 1));
+        if($categorie != null)
+            $produits = $em->getRepository('EcommerceBundle:Produits')->byCategorie($categorie);
+        else
+            $produits = $em->getRepository('EcommerceBundle:Produits')->findBy(array('disponible' => 1));
         
         if($session->has('panier'))
             $panier = $session->get('panier');
         else
             $panier = false;
         
-        
+        //$produits = $this->get('knp_paginator')->paginate($findProduits,$this->get('request')->query->get('page', 1)/*page number*/,3/*limit per page*/);
+    
         return $this->render('EcommerceBundle:Default:produits/layout/produits.html.twig', array('produits' => $produits,
                                                                                                  'panier' => $panier));
     }
