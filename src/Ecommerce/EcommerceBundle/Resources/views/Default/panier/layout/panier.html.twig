@@ -26,14 +26,7 @@
             <div class="col-sm-9">
                 <div class="row">
                     <div class="col-sm-12">
-                        {% for flashMessage in app.session.flashbag.get('success') %}
-                            <div class="alert alert-success">
-                                {{ flashMessage }}
-                            </div>
-                        {% endfor %} 
-                    
-                    
-                        <h2>Votre panier</h2>
+                        <h2>Valider mon panier</h2>
                     </div>
                 </div>
 
@@ -60,14 +53,14 @@
                                     <td></td>
                                     <td>{{ produit.nom }}</td>
                                     <td>
-                                        <select name="qte" onChange="this.form.submit()">
+                                        <select name="qte" class="span1" onChange="this.form.submit()">
                                             {% for i in 1..10 %}
                                                 <option value="{{ i }}" {% if i == panier[produit.id] %} selected="selected" {% endif %}>{{ i }}</option>
                                             {% endfor %}    
                                         </select>&nbsp;
                                         <a href="{{ path('supprimer', { 'id' : produit.id}) }}"><i class="fa fa-trash"></i></a>
                                     </td>
-                                    <td>{{ produit.prix }} €</td>
+                                    <td>{{ produit.prix }} FCFA</td>
                                     <td>{{ produit.prix * panier[produit.id] }} FCFA</td>
                                 </form>
                             </tr>
@@ -77,7 +70,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                {% if produits|length != 0 %}    
+                {% if produits|length != 0 %}
                     <dl class="dl-horizontal pull-right">
                         <dt>Total HT :</dt> <dd>{{ totalHT }} FCFA</dd>
 
@@ -87,9 +80,10 @@
 
                         <dt>Total TTC:</dt> <dd>{{ totalTTC }} FCFA</dd>
                     </dl>
+
                     <div class="clearfix"></div>
-                    <a href="{{ path('livraison') }}" class="btn btn-success pull-right">Valider mon panier</a>
-                {% endif %}
+                    <a href="{{ path ('livraison') }}" class="btn btn-success pull-right">Valider mon panier</a>
+                {% endif %}    
                 <a href="{{ path ('produits') }}" class="btn btn-primary">Continuer mes achats</a>
 
             </div>

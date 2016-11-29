@@ -7,6 +7,12 @@
             <div class="col-sm-3">
                 <div class="row">
                     {% include "::modulesUsed/navigation.html.twig" %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig" %}
+                    {% else %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig" %}
+                    {% endif %}
+                    {% render(controller('EcommerceBundle:Panier:menu')) %}
                 </div>
             </div>    
 
@@ -19,7 +25,7 @@
                         <div id="collapseOne" class="accordion-body collapse in">
                             <div class="accordion-inner">
                                 {% if utilisateur.adresses|length != 0 %}
-                                    <form role="form" action="{{ path('validation') }}">
+                                    <form role="form" action="{{ path('validation') }}" method="POST">
                                         <h4>Adresses de livraison</h4>
                                         <div class="adresse">
                                             {% for adresse in utilisateur.adresses %}
@@ -45,7 +51,7 @@
                                             {% endfor %}
                                         </div>
                                         <br>
-                                        <button class="btn btn-primary">Valider mon adresse de livraison</button><br>
+                                        <button class="btn btn-primary">Valider mes adresses</button><br>
                                     </form>
                                 {% endif %}
                             </div>

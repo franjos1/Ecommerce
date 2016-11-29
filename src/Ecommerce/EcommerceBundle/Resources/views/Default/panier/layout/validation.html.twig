@@ -7,13 +7,19 @@
             <div class="col-sm-3">
                 <div class="row">
                     {% include "::modulesUsed/navigation.html.twig" %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig" %}
+                    {% else %}
+                        {% include "UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig" %}
+                    {% endif %}
+                    {% render(controller('EcommerceBundle:Panier:menu')) %}
                 </div>
             </div>    
 
             <div class="col-sm-9">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h2>Votre panier</h2>
+                        <h2>Votre mon panier</h2>
                     </div>
                 </div>
 
@@ -28,39 +34,62 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>7</td>
-                            <td>150 FCFA</td>
-                            <td>900 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>3</td>
-                            <td>100 FCFA</td>
-                            <td>300 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>1</td>
-                            <td>250 FCFA</td>
-                            <td>250 FCFA</td>
-                        </tr>
+                        {% for produit in commande.commande.produit %}
+                            <tr>
+                                <td></td>
+                                <td>{{ produit.reference }}</td>
+                                <td>{{ produit.quantite }}</td>
+                                <td>{{ produit.prixHT }} FCFA</td>
+                                <td>{{ produit.prixHT * produit.quantite }} FCFA</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-                <dl class="dl-horizontal pull-right">
-                    <dt>Total HT :</dt>
-                    <dd>2,150 FCFA</dd>
-                    <dt>TVA :</dt>
-                    <dd>700 FCFA</dd>
-                    <dt>Total :</dt>
-                    <dd>2,750 FCFA</dd>
-                </dl>
+
+                <div class="col-sm-4">
+                    <div class="row pull-left">	
+                        <h4>Adresse de livraison</h4>
+                        <dt>{{ commande.commande.livraison.prenom }} {{ commande.commande.livraison.nom }}</dt>
+                        <dt>{{ commande.commande.livraison.adresse }}</dt>
+                        <dt>{{ commande.commande.livraison.cp }} {{ commande.commande.livraison.ville }} - {{ commande.commande.livraison.pays }}</dt>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row pull-left">	
+                        <h4>Adresse de facturation</h4>
+                        <dt>{{ commande.commande.facturation.prenom }} {{ commande.commande.facturation.nom }}</dt>
+                        <dt>{{ commande.commande.facturation.adresse }}</dt>
+                        <dt>{{ commande.commande.facturation.cp }} {{ commande.commande.facturation.ville }} - {{ commande.commande.facturation.pays }}</dt><br>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <span class="pull-left">
+                            <h4></h4>
+                            <div class="form-inline">
+                                <label class="form-group">Total HT :</label> <span class="form-group">{{ commande.commande.prixHT }} FCFA</span>
+                            </div>
+                            {% for key, tva in commande.commande.tva %}
+                                <div class="form-inline">
+                                    <label class="form-group">TVA :</label> <span class="form-group">{{ tva }} FCFA</span>
+                                </div>
+                            {% endfor %}
+                            <div class="form-inline">
+                                <label class="form-group">Total TTC:</label> <span class="form-group">{{ commande.commande.prixTTC }} FCFA</span>
+                            </div>
+                        </span>
+                    </div>
+                </div>
                 <div class="clearfix"></div>
-                <a href="#" class="btn btn-success pull-right">Payer</a>
+                
+                <form action="{{ path('validationCommande', { 'id' : commande.id }) }}" method="POST">
+                    <input name="token" type="hidden" value="{{ commande.commande.token }}" />
+                    <input name="prix" type="hidden" value="{{ commande.commande.prixTTC }}" />
+                    <input name="date" type="hidden" value="{{ commande.date|date('dmyhma') }}" />
+                    <button type="submit" class="btn btn-success pull-right">Payer</button>
+                </form>
+                    
+                <a href="{{ path ('livraison') }}" class="btn btn-primary">Retour</a>
             </div>
         </div>
     </div>
