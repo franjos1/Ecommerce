@@ -1,0 +1,93 @@
+<link href="./css/facture.css" rel="stylesheet" type="text/css" />
+
+<page footer="date; page" backtop="50mm" backbottom="20mm" backleft="5mm" backright="5mm">
+	<!-- footer="date; page" affiche la date d'impression du document et la page -->
+	<page_header>
+		<table class="table-header">
+			<tr>
+				<td class="logo">
+					<img src="./ecommerce_logo.png" style="height: 180px; width: 200px">
+				</td>
+				<td class="company-head">
+					<table class="doc-details"  cellspacing="0">
+						<tr>
+							<td colspan="3"><h1>Facture</h1></td>
+						</tr>
+						<tr>
+							<th width="80">Page</th>
+							<th width="100">Date</th>
+							<th width="120">Ref</th>
+						</tr>
+						<tr>
+							<td class="color">[[page_nb]]</td> <!-- Marque le nombre de pages tout seul -->
+							<td class="color">{{ facture.date|date('d-m-Y') }}</td> <!-- Marque la date de la facture qui est obligatoire -->
+							<td class="color">{{ facture.reference }}</td> <!-- Marque la reference de la facture qui est obligatoire -->
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</page_header>
+	
+	<table class="doc-infos">
+		<!-- Vous allez voir pourquoi j'avais stocké toutes les informations dans un tableau à la fois. C'est beaucoup plus simple -->
+		<tr>
+			<td >{{ facture.commande.facturation.nom }} {{ facture.commande.facturation.prenom }}</td>
+		</tr>
+		<tr>
+			<td>{{ facture.commande.facturation.adresse }}</td>
+		</tr>
+		<tr>
+			<td>{{ facture.commande.facturation.cp }} {{ facture.commande.facturation.ville }} - {{ facture.commande.facturation.pays }}</td>
+		</tr>
+	</table>
+	<br><br>
+	<table class="doc-details" cellspacing="0"> <!-- cellspacing permet d'enlever les espaces entres les colonnes du tableau -->
+		<tr>
+			<th class="desig">DESIGNATION</th>
+			<th class="qte">QTE</th>
+			<th class="pu">P.U - HT</th>
+			<th class="mht">MONTANT HT</th>
+			<th class="mttc">MONTANT TTC</th>
+		</tr>
+		<!-- Ici on va devoir faire une boucle FOR -->
+		{% for produit in facture.commande.produit %}
+			<tr>
+				<td class="color">{{ produit.reference }}</td>
+				<td class="color">{{ produit.quantite }}</td>
+				<td class="color">{{ produit.prixHT }} FCFA</td>
+				<td class="color">{{ produit.prixHT * produit.quantite }} FCFA</td>
+				<td class="color">{{ produit.prixTTC * produit.quantite }} FCFA</td>
+			</tr>
+			<!-- On est content d'avoir un jolie petit tableau avec tout de stocké à l'intérieur -->
+		{% endfor %}
+	</table>
+	<table id="total">
+		<tr>
+			<td width="110">TOTAL HT :</td>
+			<td width="100" class="color">{{ facture.commande.prixHT }} FCFA</td> <!-- On n'a plus rien à calculer, ce qui est vraiment très bien -->
+		</tr>
+		<!-- On a besoin de la key pour la tva -->
+		{% for key, tva in facture.commande.tva %}
+			<tr>
+				<td width="110">TVA <span class="color min">{{ key }}</span> :</td>
+				<td width="100" class="color">{{ tva }} FCFA</td>
+			</tr>
+		{% endfor %}
+		<tr>
+			<td width="110">TOTAL TTC :</td>
+			<td width="100" class="color">{{ facture.commande.prixTTC }} FCFA</td>
+		</tr>
+	</table>
+	
+	<page_footer>
+		<table class="table-footer">
+			<tr>
+				<td class="coordonnees">
+					<p>{{ adresse }}</p>
+					<p>{{ telephone }}</p>
+				</td>
+			</tr>
+		</table>
+	</page_footer>
+</page>

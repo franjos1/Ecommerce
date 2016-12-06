@@ -107,7 +107,7 @@ class CommandesController extends Controller
         
         $commande->setValider(1);
         $commande->setReference(1);
-       // $commande->setReference($this->container->get('setNewReference')->reference()); //Service
+        $commande->setReference($this->container->get('setNewReference')->reference()); //Service
         $em->flush();
         
         $session = $this->getRequest()->getSession();
@@ -127,6 +127,6 @@ class CommandesController extends Controller
         $this->get('mailer')->send($message);*/
         
         $this->get('session')->getFlashBag()->add('success', 'Votre commande est validé avec succès');
-        return $this->redirect($this->generateUrl('produits'));
+        return $this->redirect($this->generateUrl('factures'));
     }
 }
