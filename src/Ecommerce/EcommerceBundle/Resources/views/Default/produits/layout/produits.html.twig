@@ -17,46 +17,30 @@
             </div>    
 
             <div class="col-sm-9">
-                <div class="row">
-                    {% for produit in produits %}
-                        <div class="col-sm-4">
-                            <div class="thumbnail">
-                                <img src="{{ produit.image.path }}" class="img-responsive">
-                                <div class="caption">
-                                    <h4>{{ produit.nom }}</h4>
-                                    <p>{{ produit.prix|tva(produit.tva.multiplicate) }} FCFA</p>
-                                    <a class="btn btn-primary btn-xs" href="{{ path('presentation', {'id' : produit.id}) }}">Plus d'infos</a>
-                                    {% if panier[produit.id] is not defined %}
-                                        <a class="btn btn-success btn-xs" href="{{ path('ajouter', {'id' : produit.id}) }}">Ajouter au panier</a>
-                                    {% endif %}
+                {% if produits|length != 0 %}
+                    <div class="row">
+                        {% for produit in produits %}
+                            <div class="col-sm-4">
+                                <div class="thumbnail">
+                                    <img src="{{ produit.image.path }}" class="img-responsive">
+                                    <div class="caption">
+                                        <h4>{{ produit.nom }}</h4>
+                                        <p>{{ produit.prix|tva(produit.tva.multiplicate) }} FCFA</p>
+                                        <a class="btn btn-primary btn-xs" href="{{ path('presentation', {'id' : produit.id}) }}">Plus d'infos</a>
+                                        {% if panier[produit.id] is not defined %}
+                                            <a class="btn btn-success btn-xs" href="{{ path('ajouter', {'id' : produit.id}) }}">Ajouter au panier</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <ul class="pagination">
-                    <li>
-                        <a href="#">«&nbsp;Prev</a>
-                    </li>
-                    <li>
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li>
-                        <a href="#">4</a>
-                    </li>
-                    <li>
-                        <a href="#">5</a>
-                    </li>
-                    <li>
-                        <a href="#">Next&nbsp;»</a>
-                    </li>
-                </ul>
+                        {% endfor %}
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(produits) }}
+                    </div>
+                {% else %}
+                    <a class="btn btn-warning">Aucun produit portant ce nom a été trouvé</a>
+                {% endif %}    
             </div>
         </div>
     </div>
