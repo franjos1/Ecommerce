@@ -1,0 +1,31 @@
+{% extends '::layout/layoutAdmin.html.twig' %}
+
+{% block body %}
+    <h1>Liste des utilisateurs</h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th width="80%">Nom</th>
+                <th width="20%">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for utilisateur in utilisateurs %}    
+            <tr>
+                <td>{{ utilisateur.username }}</td>
+                <td>
+                    <!-- n’afficher que les utilisateurs qui possède au moins une adresse dans la BDD -->
+                    {% if utilisateur.adresses|length != 0 %}
+                        <a href="{{ path('adminAdressesUtilisateurs', { 'id' : utilisateur.id }) }}" title="Consulter les adresses"><i class="fa fa-book"></i></a>&nbsp; &nbsp;
+                    {% endif %}
+                    <!-- n’afficher que les utilisateurs qui possède au moins une commande dans la BDD -->
+                    {% if utilisateur.commandes|length != 0 %}
+                        <a href="{{ path('adminFacturesUtilisateurs', { 'id' : utilisateur.id }) }}" title="Consulter les factures"><i class="fa fa-book"></i></a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

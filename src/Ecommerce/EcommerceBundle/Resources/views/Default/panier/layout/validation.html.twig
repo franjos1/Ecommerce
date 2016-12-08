@@ -32,7 +32,7 @@
                     <tbody>
                         {% for produit in commande.commande.produit %}
                             <tr>
-                                <td></td>
+                                <td>{{ loop.index }}</td>
                                 <td>{{ produit.reference }}</td>
                                 <td>{{ produit.quantite }}</td>
                                 <td>{{ produit.prixHT }} FCFA</td>

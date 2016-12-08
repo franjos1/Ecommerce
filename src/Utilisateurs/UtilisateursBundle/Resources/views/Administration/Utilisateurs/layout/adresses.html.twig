@@ -1,0 +1,15 @@
+{% extends '::layout/layoutAdmin.html.twig' %}
+
+{% block body %}
+    <h1>Utilisateurs adresses</h1>
+
+    {% for adresse in utilisateur.adresses %}
+        <div class='col-sm-6'>    
+            <!-- « loop.index » permet d’avoir le numéro de chaque ligne. -->
+            <h4>Adresse {{ loop.index }}:</h4> 
+            {{ adresse.adresse }}, {{ adresse.cp }} {{ adresse.ville }} - {{ adresse.pays }}
+            <br />{{ adresse.prenom }} {{ adresse.nom }}
+            <br /><br />
+        </div>
+    {% endfor %}
+{% endblock %}

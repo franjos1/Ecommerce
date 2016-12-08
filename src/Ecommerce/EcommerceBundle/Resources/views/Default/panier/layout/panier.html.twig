@@ -50,7 +50,7 @@
                         {%for produit in produits %}
                             <tr>
                                 <form action="{{ path('ajouter', { 'id' : produit.id }) }}" method="get">
-                                    <td></td>
+                                    <td>{{ loop.index }}</td>
                                     <td>{{ produit.nom }}</td>
                                     <td>
                                         <select name="qte" class="span1" onChange="this.form.submit()">
