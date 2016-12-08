@@ -1,9 +1,3 @@
-villes:
-    pattern: /villes/{cp}
-    defaults: {_controller: UtilisateursBundle:Utilisateurs:villes}
-    options:
-        expose: true
-
 factures:
     pattern: /profile/factures
     defaults: {_controller: UtilisateursBundle:Utilisateurs:factures}
