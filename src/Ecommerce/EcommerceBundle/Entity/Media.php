@@ -3,12 +3,14 @@
 namespace Ecommerce\EcommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Media
  *
  * @ORM\Table(name="media")
  * @ORM\Entity(repositoryClass="Ecommerce\EcommerceBundle\Repository\MediaRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Media
 {
@@ -22,20 +24,92 @@ class Media
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="path", type="string", length=255)
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="update_at", type="datetime", nullable=true)
      */
-    private $path;
+    private $updateAt;
+    
+    /**
+     * @ORM\PostLoad()
+     */
+    public function postLoad()
+    {
+        $this->updateAt = new \DateTime();
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="alt", type="string", length=125)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
-    private $alt;
-
-
+    public $name;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $path;
+    
+    public $file;
+    
+    // voici l'emplacement dans lequel sera stocké nos images, et le dossier "uploads" sera créé dans "web"
+    public function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../web/uploads';
+    }
+    
+    public function getAbsolutePath()
+    {
+        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
+    }
+   
+    public function getAssetPath()
+    {
+        return 'uploads/'.$this->path;
+    }
+    /**
+     * @ORM\Prepersist()
+     * @ORM\Preupdate()
+     */
+    public function preUpload()
+    {
+        $this->tempFile = $this->getAbsolutePath();
+        $this->oldFile = $this->getPath();
+        $this->updateAt = new \DateTime();
+        
+        if(null !== $this->file) 
+            $this->path = sha1(uniqid(mt_rand(),true)).'.'.$this->file->guessExtension();
+    }
+    
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if(null !== $this->file){
+            $this->file->move($this->getUploadRootDir(), $this->path);
+            unset($this->file);
+            
+            if($this->oldFile != null) unlink($this->tempFile);
+        }
+    }
+    
+    /**
+     * @ORM\PreRemove()
+     */
+    public function preRemoveUpload()
+    {
+        $this->tempFile = $this->getAbsolutePath();
+    }
+    
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if(file_exists($this->tempFile)) unlink($this->tempFile);
+    }
+    
     /**
      * Get id
      *
@@ -45,50 +119,14 @@ class Media
     {
         return $this->id;
     }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return Media
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string 
-     */
+    
     public function getPath()
     {
         return $this->path;
     }
-
-    /**
-     * Set alt
-     *
-     * @param string $alt
-     * @return Media
-     */
-    public function setAlt($alt)
+    
+    public function getName()
     {
-        $this->alt = $alt;
-
-        return $this;
-    }
-
-    /**
-     * Get alt
-     *
-     * @return string 
-     */
-    public function getAlt()
-    {
-        return $this->alt;
+        return $this->name;
     }
 }

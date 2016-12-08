@@ -3,14 +3,12 @@
 {% block body %}
     <h1>Modification de la page</h1>
 
-    <div>
-        {{ form_start(edit_form) }}
-            {{ form_widget(edit_form) }}
-            <br />
-            <input class="btn btn-success pull-right"  type="submit" value="Modifier" />
-            <a href="{{ path('adminPages_index') }}" class="btn btn-primary pull-left">Retourner sur la liste</a>
-        {{ form_end(edit_form) }}
-    </div>
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <br />
+        <input class="btn btn-success pull-right"  type="submit" value="Modifier" />
+        <a href="{{ path('adminPages_index') }}" class="btn btn-primary pull-left">Retourner sur la liste</a>
+    {{ form_end(edit_form) }}
     
     <div>
         <br />

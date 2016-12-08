@@ -1,0 +1,22 @@
+{% extends '::layout/layoutAdmin.html.twig' %}
+
+{% block body %}
+    <h1>Modification de la categorie</h1>
+
+    <div class="col-sm-offset-2 col-sm-8">
+        {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+            <br />
+            <input class="btn btn-success pull-right"  type="submit" value="Modifier" />
+            <a href="{{ path('adminCategories_index') }}" class="btn btn-primary pull-left">Retourner sur la liste</a>
+        {{ form_end(edit_form) }}
+
+        <div>
+            <br />
+            <br />
+            {{ form_start(delete_form) }}
+                <input class="btn btn-danger pull-right" type="submit" value="Supprimer">
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+{% endblock %}
