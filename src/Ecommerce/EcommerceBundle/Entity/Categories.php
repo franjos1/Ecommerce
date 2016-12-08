@@ -3,6 +3,7 @@
 namespace Ecommerce\EcommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Categories
@@ -22,18 +23,20 @@ class Categories
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Media", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $image;    
-    
-    /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=125)
+     * @Assert\NotBlank()
      */
     private $nom;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     * @Assert\NotBlank()
+     */
+    private $description;
 
     /**
      * Get id
@@ -69,28 +72,28 @@ class Categories
     }
 
     /**
-     * Set image
+     * Set description
      *
-     * @param \Ecommerce\EcommerceBundle\Entity\Media $image
-     * @return Categories
+     * @param string $description
+     * @return Produits
      */
-    public function setImage(\Ecommerce\EcommerceBundle\Entity\Media $image)
+    public function setDescription($description)
     {
-        $this->image = $image;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get image
+     * Get description
      *
-     * @return \Ecommerce\EcommerceBundle\Entity\Media 
+     * @return string 
      */
-    public function getImage()
+    public function getDescription()
     {
-        return $this->image;
+        return $this->description;
     }
-    
+
     public function __toString()
     {
         return $this->getNom();

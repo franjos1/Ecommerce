@@ -16,7 +16,7 @@ class CategoriesType extends AbstractType
     {
         $builder
             ->add('nom', 'text', array('attr' => array('class' => 'form-control')))
-            ->add('image', new MediaType())
+            ->add('description', 'textarea', array('attr' => array('class' => 'form-control')))
         ;
     }
     
