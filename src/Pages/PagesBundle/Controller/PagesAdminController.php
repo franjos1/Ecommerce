@@ -28,7 +28,32 @@ class PagesAdminController extends Controller
             'pages' => $pages,
         ));
     }
-
+    
+    public function softDelAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getFilters()->disable('softdeleteable');
+        
+        $pages = $em->getRepository('PagesBundle:Pages')->findByRemove();
+        
+        return $this->render('PagesBundle:Administration:pages/layout/softDel.html.twig', array( /* la zone modifiée */
+            'pages' => $pages,
+        ));
+    }
+    
+    public function restoreAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getFilters()->disable('softdeleteable');
+        
+        $page = $em->getRepository('PagesBundle:Pages')->find($id);
+        $page->setDeletedAt(null);
+        $em->persist($page);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('adminPages_softdel'));
+    }
+    
     /**
      * Creates a new Pages entity.
      *

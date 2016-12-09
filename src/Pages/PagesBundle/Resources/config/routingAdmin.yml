@@ -2,6 +2,16 @@ adminPages_index:
     path:     /
     defaults: { _controller: "PagesBundle:PagesAdmin:index" }
     methods:  GET
+    
+adminPages_softdel:
+    path:     /soft/del
+    defaults: { _controller: "PagesBundle:PagesAdmin:softDel" }
+    methods:  GET
+
+adminPages_restore:
+    path:     /{id}/restore
+    defaults: { _controller: "PagesBundle:PagesAdmin:restore" }
+    methods:  GET
 
 adminPages_show:
     path:     /{id}/show

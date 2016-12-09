@@ -2,6 +2,7 @@
 
 namespace Pages\PagesBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Pages\PagesBundle\Validator\Constraints as CustomAssert;
 
@@ -9,6 +10,8 @@ use Pages\PagesBundle\Validator\Constraints as CustomAssert;
  * Pages
  *
  * @ORM\Table(name="pages")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @Gedmo\Loggable
  * @ORM\Entity(repositoryClass="Pages\PagesBundle\Repository\PagesRepository")
  */
 class Pages
@@ -23,8 +26,37 @@ class Pages
     private $id;
 
     /**
+     * @ORM\column(name="deletedAt", type="datetime", nullable=true)
+     */
+    private $deletedAt;
+
+    /**
+     * @Gedmo\Slug(fields={"titre"})
+     * @ORM\column(length=128, unique=true)
+     */
+    private $slug;
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+    
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+     
+    /**
+     * @Gedmo\Timestampable(on="change", field={"titre", "votre champ"})
+     * @ORM\Column(name="titleChanged", type="datetime", nullable=true)
+     */
+    private $titleChanged;    
+    
+    /**
      * @var string
      *
+     * @Gedmo\Versioned
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
@@ -92,5 +124,29 @@ class Pages
     public function getContenu()
     {
         return $this->contenu;
+    }
+     
+    /**
+     * Set deletedAt
+     *
+     * @param string $deletedAt
+     *
+     * @return Pages
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+    
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

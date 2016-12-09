@@ -22,7 +22,7 @@
                         {% for produit in produits %}
                             <div class="col-sm-4">
                                 <div class="thumbnail">
-                                    <img src="{{ asset(produit.image.AssetPath) }}" class="img-responsive"  alt="{{ produit.image.name }}">
+                                    <img src="{{ produit.image.AssetPath|imagine_filter('produitThumb') }}" alt="{{ produit.image.name }}">
                                     <div class="caption">
                                         <h4>{{ produit.nom }}</h4>
                                         <p>{{ produit.prix|tva(produit.tva.multiplicate) }} FCFA</p>

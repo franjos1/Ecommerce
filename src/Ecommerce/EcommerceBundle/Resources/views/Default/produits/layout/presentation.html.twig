@@ -22,7 +22,7 @@
             <div class="col-sm-9">
                 <div class="row">
                     <div class="col-sm-6">
-                        <img src="{{ asset(produit.image.AssetPath) }}" class="img-responsive"  alt="{{ produit.image.name }}">
+                        <img src="{{ produit.image.AssetPath|imagine_filter('produit') }}" alt="{{ produit.image.name }}">
                     </div>
                     <div class="col-sm-6">
                         <h3>{{ produit.nom }}</h3>
